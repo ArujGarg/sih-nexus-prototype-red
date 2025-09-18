@@ -732,9 +732,9 @@ select.form-control {
 }
 
 @font-face {
-  font-family: 'FKGroteskNeue';
-  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')
-    format('woff2');
+  font-family: "FKGroteskNeue";
+  src: url("https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2")
+    format("woff2");
 }
 
 /* END PERPLEXITY DESIGN SYSTEM */
@@ -905,45 +905,48 @@ select.form-control {
 }
 
 @keyframes trackHighlight {
-  0%, 100% { 
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: none;
   }
-  25% { 
+  25% {
     transform: scale(1.02);
     box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
   }
-  75% { 
+  75% {
     transform: scale(1.01);
     box-shadow: 0 0 15px rgba(52, 152, 219, 0.4);
   }
 }
 
 @keyframes trackConflict {
-  0%, 100% { 
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: none;
   }
-  25% { 
+  25% {
     transform: scale(1.02);
     box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
   }
-  75% { 
+  75% {
     transform: scale(1.01);
     box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
   }
 }
 
 @keyframes trackOptimization {
-  0%, 100% { 
+  0%,
+  100% {
     transform: scale(1);
     box-shadow: none;
   }
-  25% { 
+  25% {
     transform: scale(1.02);
     box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
   }
-  75% { 
+  75% {
     transform: scale(1.01);
     box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
   }
@@ -977,9 +980,15 @@ select.form-control {
   color: var(--color-text-secondary);
 }
 
-.station-0 { left: 0%; }
-.station-500 { left: 50%; }
-.station-1000 { left: 100%; }
+.station-0 {
+  left: 0%;
+}
+.station-500 {
+  left: 50%;
+}
+.station-1000 {
+  left: 100%;
+}
 
 .track-capacity {
   display: flex;
@@ -1344,7 +1353,7 @@ html {
   .main-layout {
     grid-template-columns: 20% 55% 25%;
   }
-  
+
   .header h1 {
     font-size: var(--font-size-md);
   }
@@ -1355,22 +1364,22 @@ html {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
   }
-  
+
   .left-sidebar,
   .right-sidebar {
     border: none;
     border-bottom: 1px solid var(--color-border);
     height: auto;
   }
-  
+
   .charts-container {
     grid-template-columns: 1fr;
   }
-  
+
   .header h1 {
     font-size: var(--font-size-sm);
   }
-  
+
   .status-indicators {
     flex-direction: column;
     gap: var(--space-4);
@@ -1394,7 +1403,7 @@ html {
   .track-line {
     border: 2px solid var(--color-text);
   }
-  
+
   .train {
     border-width: 3px;
   }
@@ -1405,16 +1414,16 @@ html {
   .train {
     transition: none;
   }
-  
+
   .train.moving {
     animation: none;
   }
-  
+
   .capacity-fill,
   .utilization-fill {
     transition: none;
   }
-  
+
   .track.highlight-decision,
   .track.highlight-conflict,
   .track.highlight-optimization {
@@ -1427,15 +1436,15 @@ html {
   .modal {
     display: none !important;
   }
-  
+
   .control-buttons {
     display: none;
   }
-  
+
   .main-layout {
     grid-template-columns: 1fr;
   }
-  
+
   .left-sidebar,
   .right-sidebar {
     display: none;
