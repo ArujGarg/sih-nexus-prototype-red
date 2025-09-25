@@ -1,279 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NEXUS Rail AI - Intelligent Traffic Control System</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header -->
     <header class="header">
-        <div class="container">
-            <h1>NEXUS Rail AI - Intelligent Traffic Control System - SIH 2025</h1>
-            <div class="status-indicators">
-                <span class="status status--success">System Online</span>
-                <span class="status status--info" id="simulation-time">00:00:00</span>
-            </div>
+      <div class="container">
+        <h1>NEXUS Rail AI - Intelligent Traffic Control System - SIH 2025</h1>
+        <div class="status-indicators">
+          <span class="status status--success">System Online</span>
+          <span class="status status--info" id="simulation-time">00:00:00</span>
         </div>
+      </div>
     </header>
 
     <!-- Main Layout -->
     <div class="main-layout">
-        <!-- Left Sidebar - Control Panel -->
-        <aside class="left-sidebar">
-            <div class="control-panel">
-                <h3>Control Panel</h3>
-                
-                <div class="control-group">
-                    <label class="form-label">Simulation Speed</label>
-                    <select id="simulation-speed" class="form-control">
-                        <option value="1">1x Normal</option>
-                        <option value="2">2x Speed</option>
-                        <option value="4">4x Speed</option>
-                    </select>
-                </div>
+      <!-- Left Sidebar - Control Panel -->
+      <aside
+        class="left-sidebar"
+        style="
+          overflow-y: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        "
+      >
+        <div class="control-panel">
+          <h3>Control Panel</h3>
 
-                <div class="control-group">
-                    <label class="form-label">Scenario</label>
-                    <select id="scenario-select" class="form-control">
-                        <option value="normal">Normal Traffic</option>
-                        <option value="rush">Rush Hour</option>
-                        <option value="mixed">Mixed Traffic</option>
-                    </select>
-                </div>
+          <div class="control-group">
+            <label class="form-label">Simulation Speed</label>
+            <select id="simulation-speed" class="form-control">
+              <option value="1">1x Normal</option>
+              <option value="2">2x Speed</option>
+              <option value="4">4x Speed</option>
+            </select>
+          </div>
 
-                <div class="control-buttons">
-                    <button id="start-simulation" class="btn btn--primary btn--full-width">Start Simulation</button>
-                    <button id="pause-simulation" class="btn btn--secondary btn--full-width">Pause</button>
-                    <button id="emergency-stop" class="btn btn--outline btn--full-width">Emergency Stop</button>
-                    <button id="add-train" class="btn btn--primary btn--full-width">Add Train</button>
-                    <button id="reset-simulation" class="btn btn--secondary btn--full-width">Reset</button>
-                </div>
+          <div class="control-group">
+            <label class="form-label">Scenario</label>
+            <select id="scenario-select" class="form-control">
+              <option value="normal">Normal Traffic</option>
+              <option value="rush">Rush Hour</option>
+              <option value="mixed">Mixed Traffic</option>
+            </select>
+          </div>
 
-                <div class="ai-decision-panel">
-                    <h4>Latest AI Decision</h4>
-                    <div id="ai-decision-display" class="ai-decision-content">
-                        <p>Initializing AI decision engine...</p>
-                    </div>
-                </div>
+          <div class="control-buttons">
+            <button
+              id="start-simulation"
+              class="btn btn--primary btn--full-width"
+            >
+              Start Simulation
+            </button>
+            <button
+              id="pause-simulation"
+              class="btn btn--secondary btn--full-width"
+            >
+              Pause
+            </button>
+            <button
+              id="emergency-stop"
+              class="btn btn--outline btn--full-width"
+            >
+              Emergency Stop
+            </button>
+            <button id="add-train" class="btn btn--primary btn--full-width">
+              Add Train
+            </button>
+            <button
+              id="reset-simulation"
+              class="btn btn--secondary btn--full-width"
+            >
+              Reset
+            </button>
+          </div>
+
+          <div class="ai-decision-panel">
+            <h4>Latest AI Decision</h4>
+            <div id="ai-decision-display" class="ai-decision-content">
+              <p>Initializing AI decision engine...</p>
             </div>
-        </aside>
+          </div>
+        </div>
+      </aside>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <div class="track-visualization">
-                <div class="track-header">
-                    <h3>Railway Network</h3>
-                    <div class="track-legend">
-                        <span class="legend-item"><span class="color-box" style="background: #3498db;"></span> Track A</span>
-                        <span class="legend-item"><span class="color-box" style="background: #2ecc71;"></span> Track B</span>
-                        <span class="legend-item"><span class="color-box" style="background: #e74c3c;"></span> Track C</span>
-                    </div>
-                </div>
-                
-                <div class="tracks-container" id="tracks-container">
-                    <!-- Track A -->
-                    <div class="track" data-track="A" id="track-A">
-                        <div class="track-label">Track A (Express)</div>
-                        <div class="track-line" style="background-color: #3498db;">
-                            <div class="station station-0">Station 1</div>
-                            <div class="station station-500">Station 2</div>
-                            <div class="station station-1000">Station 3</div>
-                        </div>
-                        <div class="track-capacity">
-                            <span class="capacity-text">Capacity: <span class="current-occupancy">0</span>/5</span>
-                            <div class="capacity-bar">
-                                <div class="capacity-fill"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Track B -->
-                    <div class="track" data-track="B" id="track-B">
-                        <div class="track-label">Track B (Passenger)</div>
-                        <div class="track-line" style="background-color: #2ecc71;">
-                            <div class="station station-0">Station 1</div>
-                            <div class="station station-500">Station 2</div>
-                            <div class="station station-1000">Station 3</div>
-                        </div>
-                        <div class="track-capacity">
-                            <span class="capacity-text">Capacity: <span class="current-occupancy">0</span>/5</span>
-                            <div class="capacity-bar">
-                                <div class="capacity-fill"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Track C -->
-                    <div class="track" data-track="C" id="track-C">
-                        <div class="track-label">Track C (Freight)</div>
-                        <div class="track-line" style="background-color: #e74c3c;">
-                            <div class="station station-0">Station 1</div>
-                            <div class="station station-500">Station 2</div>
-                            <div class="station station-1000">Station 3</div>
-                        </div>
-                        <div class="track-capacity">
-                            <span class="capacity-text">Capacity: <span class="current-occupancy">0</span>/4</span>
-                            <div class="capacity-bar">
-                                <div class="capacity-fill"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <!-- Main Content Area -->
+      <main
+        class="main-content"
+        style="
+          overflow-y: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        "
+      >
+        <div class="track-visualization" style="visibility: hidden">
+          <div class="track-header">
+            <h3>Railway Network</h3>
+            <div class="track-legend">
+              <span class="legend-item"
+                ><span class="color-box" style="background: #3498db"></span>
+                Track A</span
+              >
+              <span class="legend-item"
+                ><span class="color-box" style="background: #2ecc71"></span>
+                Track B</span
+              >
+              <span class="legend-item"
+                ><span class="color-box" style="background: #e74c3c"></span>
+                Track C</span
+              >
             </div>
-        </main>
+          </div>
 
-        <!-- Right Sidebar - Metrics -->
-        <aside class="right-sidebar">
-            <div class="metrics-panel">
-                <h3>Real-Time Metrics</h3>
-                
-                <div class="metric-card">
-                    <div class="metric-label">Throughput</div>
-                    <div class="metric-value" id="throughput-metric">0</div>
-                    <div class="metric-unit">trains/hour</div>
+          <div class="tracks-container" id="tracks-container">
+            <!-- Track A -->
+            <div class="track" data-track="A" id="track-A">
+              <div class="track-label">Track A (Express)</div>
+              <div class="track-line" style="background-color: #3498db">
+                <div class="station station-0">Station 1</div>
+                <div class="station station-500">Station 2</div>
+                <div class="station station-1000">Station 3</div>
+              </div>
+              <div class="track-capacity">
+                <span class="capacity-text"
+                  >Capacity: <span class="current-occupancy">0</span>/5</span
+                >
+                <div class="capacity-bar">
+                  <div class="capacity-fill"></div>
                 </div>
-
-                <div class="metric-card">
-                    <div class="metric-label">Average Delay</div>
-                    <div class="metric-value" id="delay-metric">0.0</div>
-                    <div class="metric-unit">minutes</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-label">System Efficiency</div>
-                    <div class="metric-value" id="efficiency-metric">100</div>
-                    <div class="metric-unit">%</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-label">Conflicts Resolved</div>
-                    <div class="metric-value" id="conflicts-metric">0</div>
-                    <div class="metric-unit">total</div>
-                </div>
-
-                <div class="track-utilization">
-                    <h4>Track Utilization</h4>
-                    <div class="utilization-bars">
-                        <div class="utilization-item">
-                            <span>Track A</span>
-                            <div class="utilization-bar">
-                                <div class="utilization-fill" id="track-a-util"></div>
-                            </div>
-                            <span id="track-a-percent">0%</span>
-                        </div>
-                        <div class="utilization-item">
-                            <span>Track B</span>
-                            <div class="utilization-bar">
-                                <div class="utilization-fill" id="track-b-util"></div>
-                            </div>
-                            <span id="track-b-percent">0%</span>
-                        </div>
-                        <div class="utilization-item">
-                            <span>Track C</span>
-                            <div class="utilization-bar">
-                                <div class="utilization-fill" id="track-c-util"></div>
-                            </div>
-                            <span id="track-c-percent">0%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="active-trains">
-                    <h4>Active Trains</h4>
-                    <div id="trains-list" class="trains-list">
-                        <!-- Dynamic train list -->
-                    </div>
-                </div>
+              </div>
             </div>
-        </aside>
+
+            <!-- Track B -->
+            <div class="track" data-track="B" id="track-B">
+              <div class="track-label">Track B (Passenger)</div>
+              <div class="track-line" style="background-color: #2ecc71">
+                <div class="station station-0">Station 1</div>
+                <div class="station station-500">Station 2</div>
+                <div class="station station-1000">Station 3</div>
+              </div>
+              <div class="track-capacity">
+                <span class="capacity-text"
+                  >Capacity: <span class="current-occupancy">0</span>/5</span
+                >
+                <div class="capacity-bar">
+                  <div class="capacity-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Track C -->
+            <div class="track" data-track="C" id="track-C">
+              <div class="track-label">Track C (Freight)</div>
+              <div class="track-line" style="background-color: #e74c3c">
+                <div class="station station-0">Station 1</div>
+                <div class="station station-500">Station 2</div>
+                <div class="station station-1000">Station 3</div>
+              </div>
+              <div class="track-capacity">
+                <span class="capacity-text"
+                  >Capacity: <span class="current-occupancy">0</span>/4</span
+                >
+                <div class="capacity-bar">
+                  <div class="capacity-fill"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <img src="images/fake-image-5.jpeg" />
+      </main>
+
+      <style>
+        .main-content::-webkit-scrollbar {
+          display: none;
+        }
+      </style>
+
+      <!-- Right Sidebar - Metrics -->
+      <aside
+        class="right-sidebar"
+        style="
+          overflow-y: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        "
+      >
+        <div class="metrics-panel">
+          <h3>Real-Time Metrics</h3>
+
+          <div class="metric-card">
+            <div class="metric-label">Throughput</div>
+            <div class="metric-value" id="throughput-metric">0</div>
+            <div class="metric-unit">trains/hour</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Average Delay</div>
+            <div class="metric-value" id="delay-metric">0.0</div>
+            <div class="metric-unit">minutes</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">System Efficiency</div>
+            <div class="metric-value" id="efficiency-metric">100</div>
+            <div class="metric-unit">%</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Conflicts Resolved</div>
+            <div class="metric-value" id="conflicts-metric">0</div>
+            <div class="metric-unit">total</div>
+          </div>
+
+          <div class="track-utilization">
+            <h4>Track Utilization</h4>
+            <div class="utilization-bars">
+              <div class="utilization-item">
+                <span>Track A</span>
+                <div class="utilization-bar">
+                  <div class="utilization-fill" id="track-a-util"></div>
+                </div>
+                <span id="track-a-percent">0%</span>
+              </div>
+              <div class="utilization-item">
+                <span>Track B</span>
+                <div class="utilization-bar">
+                  <div class="utilization-fill" id="track-b-util"></div>
+                </div>
+                <span id="track-b-percent">0%</span>
+              </div>
+              <div class="utilization-item">
+                <span>Track C</span>
+                <div class="utilization-bar">
+                  <div class="utilization-fill" id="track-c-util"></div>
+                </div>
+                <span id="track-c-percent">0%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="active-trains">
+            <h4>Active Trains</h4>
+            <div
+              id="trains-list"
+              class="trains-list"
+              style="
+                overflow-y: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+              "
+            >
+              <!-- Dynamic train list -->
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
 
     <!-- Bottom Panel - Charts -->
     <section class="bottom-panel">
-        <div class="container">
-            <div class="charts-container">
-                <div class="chart-section">
-                    <h4>Throughput Over Time</h4>
-                    <div class="chart-container" style="position: relative; height: 200px;">
-                        <canvas id="throughput-chart"></canvas>
-                    </div>
-                </div>
-                
-                <div class="chart-section">
-                    <h4>Track Utilization</h4>
-                    <div class="chart-container" style="position: relative; height: 200px;">
-                        <canvas id="utilization-chart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-section">
-                    <h4>AI Decision Timeline</h4>
-                    <div class="decision-log" id="decision-log">
-                        <!-- Dynamic decision log entries -->
-                    </div>
-                </div>
+      <div class="container">
+        <div class="charts-container">
+          <div class="chart-section">
+            <h4>Throughput Over Time</h4>
+            <div
+              class="chart-container"
+              style="position: relative; height: 200px"
+            >
+              <canvas id="throughput-chart"></canvas>
             </div>
+          </div>
+
+          <div class="chart-section">
+            <h4>Track Utilization</h4>
+            <div
+              class="chart-container"
+              style="position: relative; height: 200px"
+            >
+              <canvas id="utilization-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-section">
+            <h4>AI Decision Timeline</h4>
+            <div class="decision-log" id="decision-log">
+              <!-- Dynamic decision log entries -->
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Train Details Modal -->
     <div class="modal hidden" id="train-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-train-title">Train Details</h3>
-                <button class="modal-close" id="close-modal">&times;</button>
-            </div>
-            <div class="modal-body" id="modal-train-details">
-                <!-- Dynamic train details -->
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-train-title">Train Details</h3>
+          <button class="modal-close" id="close-modal">&times;</button>
         </div>
+        <div class="modal-body" id="modal-train-details">
+          <!-- Dynamic train details -->
+        </div>
+      </div>
     </div>
 
     <!-- Add Train Modal -->
     <div class="modal hidden" id="add-train-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Add New Train</h3>
-                <button class="modal-close" id="close-add-train-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="add-train-form">
-                    <div class="form-group">
-                        <label class="form-label">Train ID</label>
-                        <input type="text" id="new-train-id" class="form-control" placeholder="T999" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Train Type</label>
-                        <select id="new-train-type" class="form-control" required>
-                            <option value="Express">Express</option>
-                            <option value="Passenger">Passenger</option>
-                            <option value="Freight">Freight</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Priority</label>
-                        <select id="new-train-priority" class="form-control" required>
-                            <option value="High">High</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Low">Low</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Destination</label>
-                        <select id="new-train-destination" class="form-control" required>
-                            <option value="500">Station 2</option>
-                            <option value="1000">Station 3</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn--primary btn--full-width">Add Train</button>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add New Train</h3>
+          <button class="modal-close" id="close-add-train-modal">
+            &times;
+          </button>
         </div>
+        <div class="modal-body">
+          <form id="add-train-form">
+            <div class="form-group">
+              <label class="form-label">Train ID</label>
+              <input
+                type="text"
+                id="new-train-id"
+                class="form-control"
+                placeholder="T999"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Train Type</label>
+              <select id="new-train-type" class="form-control" required>
+                <option value="Express">Express</option>
+                <option value="Passenger">Passenger</option>
+                <option value="Freight">Freight</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select id="new-train-priority" class="form-control" required>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Destination</label>
+              <select id="new-train-destination" class="form-control" required>
+                <option value="500">Station 2</option>
+                <option value="1000">Station 3</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full-width">
+              Add Train
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
